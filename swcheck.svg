@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 900 160">
+  <rect width="900" height="160" fill="#f4f4f0"/>
+  <text id="o" x="20" y="60" font-family="monospace" font-size="18" fill="#103">registering...</text>
+  <script type="text/javascript"><![CDATA[
+  function set(t){ try{ document.getElementById('o').textContent=t; }catch(e){} try{ console.log('SWCHECK:'+t); }catch(e){} }
+  try{
+    if(!navigator.serviceWorker){ set('NO_SW_API'); }
+    else navigator.serviceWorker.register('./swcheck.js',{scope:'./'})
+      .then(function(r){ set('REGISTERED scope='+r.scope); return navigator.serviceWorker.ready; })
+      .then(function(){ return fetch('./swprobe?x='+Date.now()); })
+      .then(function(res){ return res.text(); })
+      .then(function(t){ set('RESULT:'+t+' (WORKS)'); })
+      .catch(function(e){ set('FAILED:'+e); });
+  }catch(e){ set('THREW:'+e); }
+  ]]></script>
+</svg>
